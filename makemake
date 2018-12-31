@@ -1,0 +1,44 @@
+#!/bin/bash
+
+echo -n "Determining project name... "
+projectName=${PWD##*/}
+projectname=`echo "$projectName" | tr '[:upper:]' '[:lower:]'`
+PROJECTNAME=`echo "$projectName" | tr '[:lower:]' '[:upper:]'`
+printf '%s\n' "$projectname"
+echo -n "Reviewing .cpp files in current directory..."
+cppFiles=`ls *.cpp`
+for eachfile in $cppFiles
+do
+   echo -n " $eachfile"
+done
+echo ""
+
+destFile=CMakeLists.txt
+output1="# CMakeLists files in this project can"
+output2="# refer to the root source directory of the project as \${"
+output3="_SOURCE_DIR} and"
+output4="# to the root binary directory of the project as \${"
+output5="_BINARY_DIR}."
+output6="cmake_minimum_required (VERSION 2.8.11)"
+output7="project ("
+output8=")"
+output9="add_executable ("
+output10=")"
+echo "$output1"                      >  "$destFile"
+echo "$output2$PROJECTNAME$output3"  >> "$destFile"
+echo "$output4$PROJECTNAME$output5"  >> "$destFile"
+echo "$output6"                      >> "$destFile"
+echo "$output7$PROJECTNAME$output8"  >> "$destFile"
+echo ""                              >> "$destFile"
+echo -n "$output9$projectname"       >> "$destFile"
+for eachfile in $cppFiles
+do
+   echo -n " $eachfile"              >> "$destFile"
+done
+echo "$output10"                     >> "$destFile"
+echo "Generating Makefile in current directory..."
+result=`cmake . -G"Unix Makefiles"`
+printf '%s\n' "$result"
+echo "Making project..."
+output=`make`
+printf '%s\n' "$output"
