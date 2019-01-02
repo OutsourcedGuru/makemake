@@ -14,7 +14,7 @@ This script is meant to scaffold the current folder so that it's `make`-ready fo
 * All `*.cpp` files are compiled together to create the executable
 * The name of the executable is the lowercase version of the project folder's name itself (and the project name doesn't include any space characters)
 * Your system runs shell scripts
-* You have `make` and `cmake` in your path
+* You have `make` and `cmake` in your path (`brew install cmake` is perhaps the easiest way to get that second one)
 
 ## How to use
 Place the `makemake` script somewhere in your PATH. I put mine in `~/local/scripts` which is in my path. Make sure that the script is marked so that it can execute: `chmod a+x makemake`
